@@ -9,11 +9,21 @@ export function ProjectFormDialog({ user, createProject }) {
 
   const change = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
 
+  const [loading, setLoading] = useState(false);
+
   const submit = async () => {
     if (!form.code || !form.name) return;
-    await createProject({ ...form, createdBy: user.id });
-    setOpen(false);
-    setForm({ code: '', name: '', client: '', location: '', status: 'Activa', startDate: today(), endDate: '' });
+    setLoading(true);
+    try {
+      await createProject({ ...form, createdBy: user.id });
+      setOpen(false);
+      setForm({ code: '', name: '', client: '', location: '', status: 'Activa', startDate: today(), endDate: '' });
+    } catch (err) {
+      console.error(err);
+      alert('Error al guardar la obra: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!open) {
@@ -25,11 +35,11 @@ export function ProjectFormDialog({ user, createProject }) {
       <div className="modal card">
         <h3>Crear obra</h3>
         <div className="form-grid">
-          <input placeholder="Código" value={form.code} onChange={(e) => change('code', e.target.value)} />
+          <input placeholder="Código *" value={form.code} onChange={(e) => change('code', e.target.value)} />
           <select value={form.status} onChange={(e) => change('status', e.target.value)}>
             <option>Activa</option><option>Pendiente inicio</option><option>Finalizada</option><option>Bloqueada</option>
           </select>
-          <input placeholder="Nombre de la obra" value={form.name} onChange={(e) => change('name', e.target.value)} />
+          <input placeholder="Nombre de la obra *" value={form.name} onChange={(e) => change('name', e.target.value)} />
           <input placeholder="Cliente" value={form.client} onChange={(e) => change('client', e.target.value)} />
           <input placeholder="Ubicación" value={form.location} onChange={(e) => change('location', e.target.value)} />
           <input type="date" value={form.startDate} onChange={(e) => change('startDate', e.target.value)} />
