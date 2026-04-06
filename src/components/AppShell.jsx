@@ -193,7 +193,9 @@ export function AppShell({ user }) {
                         <span className={`badge ${row.submission?.delivered ? '' : 'outline'}`}>{row.submission?.delivered ? 'Entregado' : 'No entregado'}</span>
                         <span className={`badge ${row.submission?.approvedByClient ? '' : 'outline'}`}>{row.submission?.approvedByClient ? 'Aprobado cliente' : 'Sin aprobar'}</span>
                         <button className="secondary" onClick={() => { setSelectedDocType(row); setSubmissionOpen(true); }}>Registrar</button>
-                        <button className="danger" onClick={() => deleteDocumentType(row.id)}>Eliminar</button>
+                        <button className="danger" title="Eliminar" style={{ padding: '8px', display: 'grid', placeItems: 'center' }} onClick={() => deleteDocumentType(row.id)}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                        </button>
                       </div>
                     </div>
                   ))}
