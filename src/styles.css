@@ -44,6 +44,7 @@ textarea { min-height: 90px; resize: vertical; }
 .badge.warning { background: #ea580c; color: white; border: 1px solid #c2410c; }
 .badge.dark { background: #000000; color: white; border: 1px solid #000000; }
 select.badge { -webkit-appearance: none; appearance: none; padding-right: 24px; cursor: pointer; border-radius: 999px; width: auto; font-family: inherit; }
+select.badge option { background: white; color: #0f172a; }
 .progress-box { min-width: 300px; }
 .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
 .progress { height: 10px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
