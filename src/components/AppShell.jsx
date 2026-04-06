@@ -44,8 +44,8 @@ export function AppShell({ user }) {
   const checklistRows = useMemo(() => documentTypes.filter((d) => d.active !== false).map((docType) => ({ ...docType, submission: latestByDocument.get(docType.id) || null })), [documentTypes, latestByDocument]);
 
   const requiredCount = checklistRows.filter((r) => r.required).length;
-  const deliveredRequiredCount = checklistRows.filter((r) => r.required && r.submission?.delivered).length;
-  const progress = requiredCount ? Math.round((deliveredRequiredCount / requiredCount) * 100) : 0;
+  const approvedRequiredCount = checklistRows.filter((r) => r.required && r.submission?.approvedByClient).length;
+  const progress = requiredCount ? Math.round((approvedRequiredCount / requiredCount) * 100) : 0;
 
   const getStatusColor = (status) => {
     switch(status) {
@@ -155,8 +155,8 @@ export function AppShell({ user }) {
                 <div className="progress"><div style={{ width: `${progress}%` }} /></div>
                 <div className="metrics">
                   <div className="metric"><small>Obligatorios</small><strong>{requiredCount}</strong></div>
-                  <div className="metric"><small>Entregados</small><strong>{deliveredRequiredCount}</strong></div>
-                  <div className="metric"><small>Pendientes</small><strong>{requiredCount - deliveredRequiredCount}</strong></div>
+                  <div className="metric"><small>Aprobados</small><strong>{approvedRequiredCount}</strong></div>
+                  <div className="metric"><small>Pendientes</small><strong>{requiredCount - approvedRequiredCount}</strong></div>
                 </div>
               </div>
             </section>
