@@ -82,7 +82,19 @@ export function AppShell({ user }) {
             <option value="Finalizada">Finalizada</option>
             <option value="Bloqueada">Bloqueada</option>
           </select>
-          {user.role === 'admin' ? <ProjectFormDialog user={user} createProject={createProject} /> : null}
+          {user.role === 'admin' ? (
+            <>
+              <ProjectFormDialog user={user} createProject={createProject} />
+              {selectedProject && (
+                <ProjectFormDialog 
+                  key={`edit-${selectedProject.id}`}
+                  user={user} 
+                  projectToEdit={selectedProject} 
+                  updateProject={updateProject} 
+                />
+              )}
+            </>
+          ) : null}
         </div>
 
         <div className="project-list">

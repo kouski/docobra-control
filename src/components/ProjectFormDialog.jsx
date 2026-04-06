@@ -1,11 +1,29 @@
 import { useState } from 'react';
 import { today } from '../utils/format';
 
-export function ProjectFormDialog({ user, createProject }) {
+export function ProjectFormDialog({ user, createProject, projectToEdit, updateProject }) {
   const [open, setOpen] = useState(false);
+  const isEditing = !!projectToEdit;
   const [form, setForm] = useState({
     code: '', name: '', client: '', location: '', status: 'Activa', startDate: today(), endDate: ''
   });
+
+  const handleOpen = () => {
+    if (isEditing) {
+      setForm({
+        code: projectToEdit.code || '',
+        name: projectToEdit.name || '',
+        client: projectToEdit.client || '',
+        location: projectToEdit.location || '',
+        status: projectToEdit.status || 'Activa',
+        startDate: projectToEdit.startDate || '',
+        endDate: projectToEdit.endDate || ''
+      });
+    } else {
+      setForm({ code: '', name: '', client: '', location: '', status: 'Activa', startDate: today(), endDate: '' });
+    }
+    setOpen(true);
+  };
 
   const change = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -15,9 +33,12 @@ export function ProjectFormDialog({ user, createProject }) {
     if (!form.code || !form.name) return;
     setLoading(true);
     try {
-      await createProject({ ...form, createdBy: user.id });
+      if (isEditing) {
+        await updateProject(projectToEdit.id, { ...form });
+      } else {
+        await createProject({ ...form, createdBy: user.id });
+      }
       setOpen(false);
-      setForm({ code: '', name: '', client: '', location: '', status: 'Activa', startDate: today(), endDate: '' });
     } catch (err) {
       console.error(err);
       alert('Error al guardar la obra: ' + err.message);
@@ -27,13 +48,17 @@ export function ProjectFormDialog({ user, createProject }) {
   };
 
   if (!open) {
-    return <button onClick={() => setOpen(true)}>+ Nueva obra</button>;
+    return (
+      <button className={isEditing ? 'secondary' : ''} onClick={handleOpen}>
+        {isEditing ? 'Editar obra / admin.' : '+ Nueva obra'}
+      </button>
+    );
   }
 
   return (
     <div className="modal-backdrop">
       <div className="modal card">
-        <h3>Crear obra</h3>
+        <h3>{isEditing ? 'Editar obra' : 'Crear obra'}</h3>
         <div className="form-grid">
           <input placeholder="Código *" value={form.code} onChange={(e) => change('code', e.target.value)} />
           <select value={form.status} onChange={(e) => change('status', e.target.value)}>
