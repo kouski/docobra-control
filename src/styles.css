@@ -59,8 +59,8 @@ select.badge option { background: white; color: #0f172a; }
 .list-rows { display: grid; gap: 12px; }
 .row-card { display: grid; grid-template-columns: 1.4fr .7fr .7fr .9fr; gap: 14px; border: 1px solid #e2e8f0; border-radius: 20px; padding: 14px; }
 .row-card.stacked { grid-template-columns: 1fr; }
-.row-card p { margin: 6px 0 0; color: #64748b; }
-.row-card > div > strong { font-size: 17px; display: block; margin-top: 4px; }
+.row-card p { margin: 6px 0 0; color: #64748b; font-size: 13px; }
+.row-card > div > strong { font-size: 15px; display: block; margin-top: 4px; font-weight: 500; }
 .title-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .title-row strong { font-size: 18px !important; margin-top: 0 !important; }
 .actions-end { display: flex; flex-wrap: wrap; justify-content: end; align-items: center; gap: 14px; }
